@@ -1,8 +1,9 @@
 .git*
-.env.*
+.env*
 readme*
 venv/
 .mypy_cache/
 __pycahce__/
 Dockerfile
 .dockerignore
+data/*

@@ -1,5 +1,5 @@
 .env
-training.db
+data/*
 
 .mypy_cache/
 venv/

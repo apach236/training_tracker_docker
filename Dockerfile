@@ -7,6 +7,8 @@ RUN --mount=type=bind,source=requirements.txt,target=/app/requirements.txt \
 
 FROM python:3.12.1-alpine
 
+ARG BOT_TOKEN
+
 RUN apk add --no-cache shadow
 
 RUN --mount=type=bind,source=requirements.txt,target=/app/requirements.txt \
