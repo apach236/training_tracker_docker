@@ -14,6 +14,8 @@ RUN --mount=type=bind,source=requirements.txt,target=/app/requirements.txt \
 
 COPY . /app/
 
+VOLUME /app/data
+
 RUN addgroup --system app \
   && adduser --system --ingroup app app \
   && chown -R app:app /app/
