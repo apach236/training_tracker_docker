@@ -1,0 +1,6 @@
+.env
+training.db
+
+.mypy_cache/
+venv/
+__pycache__/
