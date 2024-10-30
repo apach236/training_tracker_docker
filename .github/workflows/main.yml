@@ -15,12 +15,6 @@ jobs:
       
       - name: Checkout code
         uses: actions/checkout@v2
-
-      - name: Set new version 
-        run: |
-          echo $(( $(<version.txt) + 1 )) > version.txt
-          echo "VERSION=$(cat version.txt)" >> $GITHUB_ENV
-          echo "New version: $VERSION"
         
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -41,7 +35,5 @@ jobs:
           push: true
           tags: |
             ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PROJECT_NAME }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PROJECT_NAME }}:{{ env.VERSION }}
-
 
       
