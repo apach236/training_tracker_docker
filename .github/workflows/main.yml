@@ -40,8 +40,8 @@ jobs:
           context: .
           push: true
           tags: |
-            ${{ secrets.DOCKERHUB_USERNAME }}/{{ env.PROJECT_NAME }}:latest
-            ${{ secrets.DOCKERHUB_USERNAME }}/{{ env.PROJECT_NAME }}:{{ env.VERSION }}
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PROJECT_NAME }}:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PROJECT_NAME }}:{{ env.VERSION }}
 
 
       
