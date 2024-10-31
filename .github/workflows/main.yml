@@ -18,7 +18,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: ls
-        uses: ls -la
+        run: ls -la
         
       - name: install ssh keys
         run: |
