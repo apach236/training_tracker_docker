@@ -16,6 +16,9 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: ls
+        uses: ls -la
         
       - name: install ssh keys
         run: |
@@ -24,7 +27,7 @@ jobs:
            ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
            
       - name: copy compose.yml by scp 
-        run: scp compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}/home/${{ secrets.SSH_USER }}/compose.yml
+        run: scp compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:~
         
       - name: restart service
         run: >
