@@ -38,6 +38,7 @@ jobs:
 
    Delivery_to_server:
       runs-on: ubuntu-latest
+      needs: [Building_Docker_container]
       steps:
 
       - name: Checkout code
