@@ -7,14 +7,14 @@ RUN --mount=type=bind,source=requirements.txt,target=/app/requirements.txt \
 
 FROM python:3.12.1-alpine
 
-ARG BOT_TOKEN
-
 RUN apk add --no-cache shadow
 
 RUN --mount=type=bind,source=requirements.txt,target=/app/requirements.txt \
   pip install -r /app/requirements.txt
 
 COPY . /app/
+
+VOLUME /app/data
 
 RUN addgroup --system app \
   && adduser --system --ingroup app app \

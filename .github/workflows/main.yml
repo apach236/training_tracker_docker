@@ -1,0 +1,67 @@
+
+name: CI-CD-Docker-Bot
+env:
+  PROJECT_NAME: "training_tracker_bot"
+
+on:
+  push:
+    branches:
+      - main1
+
+jobs:
+   Building_Docker_container:
+      runs-on: ubuntu-latest
+      steps:
+      
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          
+      - name: Build and push 
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ env.PROJECT_NAME }}:latest
+
+   Delivery_to_server:
+      runs-on: ubuntu-latest
+      steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: install ssh keys
+        run: |
+           install -m 600 -D /dev/null ~/.ssh/id_rsa
+           echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+           ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
+           
+      - name: copy compose.yml by scp 
+        run: scp compose.yml ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}/home/${{ secrets.SSH_USER }}/
+        
+      - name: restart service
+        run: >
+            ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 
+            "cd /home/${{ secrets.SSH_USER }} && 
+            echo ${{ secrets.BOT_TOKEN }} > .env && 
+            docker compose pull  && 
+            docker-compose up -d --force-recreate --remove-orphans && 
+            exit"
+
+
+
+    
+
+      
