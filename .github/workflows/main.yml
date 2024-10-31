@@ -16,9 +16,6 @@ jobs:
 
       - name: Checkout code
         uses: actions/checkout@v4
-
-      - name: ls
-        run: ls -la
         
       - name: install ssh keys
         run: |
@@ -33,9 +30,9 @@ jobs:
         run: >
             ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 
             "cd /home/${{ secrets.SSH_USER }} && 
-            echo ${{ secrets.BOT_TOKEN }} > .env && 
+            echo "BOT_TOKEN=${{ secrets.BOT_TOKEN }}" > .env && 
             docker compose pull  && 
-            docker-compose up -d --force-recreate --remove-orphans && 
+            docker compose up -d --force-recreate --remove-orphans && 
             exit"
 
       
